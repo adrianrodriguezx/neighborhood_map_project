@@ -16,7 +16,7 @@
   * Bootstrap
 
 ## Page Rendering Instructions
-  * Open the `index.html` file located inside the main project folder in a web browser
+  * Open the `index.html` file located inside the neighborhood_map_project-master folder in a web browser
  
 ## Licence
 
