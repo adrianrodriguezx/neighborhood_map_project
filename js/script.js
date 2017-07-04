@@ -73,6 +73,47 @@ function loadWikipediaArticles(subject){
     });
 }
 
+// Set marker onclick behavior
+function markerEventListener(locationInfo, counter){
+    var infowindow = new google.maps.InfoWindow({
+        content: markersInfo[counter].contentString
+    });
+    new google.maps.event.addListener(locationInfo.holdMarker, 'click', (function(marker, counter) {
+        return function() {
+            infowindow.setContent(locationInfo.contentString);
+            loadWikipediaArticles(locationInfo.title);
+            locationInfo.holdMarker.setAnimation(google.maps.Animation.BOUNCE);
+            infowindow.open(map,this);
+            var windowWidth = $(window).width();
+
+            if(windowWidth <= 1080) {
+                map.setZoom(14);
+            } else if(windowWidth > 1080) {
+                map.setZoom(16);  
+            }
+            map.setCenter(marker.getPosition());
+        }; 
+    })(locationInfo.holdMarker, counter));
+}
+
+// Set the behavior for searched locations
+function searhNavInfo(locationInfo, counter){
+    var infowindow = new google.maps.InfoWindow({
+        content: markersInfo[counter].contentString
+    });
+
+    var searchNav = $('#nav' + counter);
+    searchNav.click((function(marker, counter) {
+        return function() {
+            infowindow.setContent(locationInfo.contentString);
+            loadWikipediaArticles(locationInfo.title);
+            infowindow.open(map,marker);
+            map.setZoom(16);
+            map.setCenter(marker.getPosition());
+        }; 
+    })(locationInfo.holdMarker, counter));
+}
+
 function setMarkers(location) {   
     for(i=0; i<location.length; i++) {
         location[i].holdMarker = new google.maps.Marker({
@@ -83,39 +124,8 @@ function setMarkers(location) {
         });
         var subject = location[i].title;
         location[i].contentString = "<h4>" + subject + "</h4>";
-        var infowindow = new google.maps.InfoWindow({
-            content: markersInfo[i].contentString
-        });
-
-        // Marker on click behavior
-        new google.maps.event.addListener(location[i].holdMarker, 'click', (function(marker, i) {
-          return function() {
-            infowindow.setContent(location[i].contentString);
-            loadWikipediaArticles(location[i].title);
-            location[i].holdMarker.setAnimation(google.maps.Animation.BOUNCE);
-            infowindow.open(map,this);
-            var windowWidth = $(window).width();
-
-            if(windowWidth <= 1080) {
-                map.setZoom(14);
-            } else if(windowWidth > 1080) {
-                map.setZoom(16);  
-            }
-
-            map.setCenter(marker.getPosition());
-          }; 
-        })(location[i].holdMarker, i));
-        
-        var searchNav = $('#nav' + i);
-        searchNav.click((function(marker, i) {
-          return function() {
-            infowindow.setContent(location[i].contentString);
-            loadWikipediaArticles(location[i].title);
-            infowindow.open(map,marker);
-            map.setZoom(16);
-            map.setCenter(marker.getPosition());
-          }; 
-        })(location[i].holdMarker, i));
+        markerEventListener(location[i], i);
+        searhNavInfo(location[i], i);
     }
 }
 
