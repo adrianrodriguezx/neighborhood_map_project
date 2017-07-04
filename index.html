@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Udacity Neighborhood Map Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 text-center well">
+                <div id="search-container">
+                    <div id="search-nav">    
+                        <input id="input" placeholder="Search…" type="input" data-bind="textInput: query, valueUpdate: 'keydown'" autocomplete="off"></input>
+                        <div id="scroller">
+                            <ul data-bind="template: {name: 'marker', foreach:markersInfo}">
+                            </ul>
+                            <script type="text/html" id="marker">
+                                <div data-bind="visible: visible">
+                                    <a href="#" data-bind="attr: {id: id}">
+                                        <li>
+                                            <strong data-bind="text: title"></strong> 
+                                        </li>
+                                    </a>
+                                </div>
+                            </script>    
+                        </div>
+                    </div>    
+                </div>
+                <div>
+                    <h3 id="wikipedia-search-heading"></h3>
+                    <ul id="relevant-wikipedia-articles"></ul>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script async type="text/javascript" src="js/script.js"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBurIisskjG_TuSJuqhPI1PDZyLzG8JTiw&callback=initMap">
+    </script>
+</body>
+</html>
