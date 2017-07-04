@@ -73,6 +73,12 @@ function loadWikipediaArticles(subject){
     });
 }
 
+// Animate each marker on click event
+function animateMarker(locationInfo){
+    locationInfo.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){ locationInfo.setAnimation(null); }, 700);
+}
+
 // Set marker onclick behavior
 function markerEventListener(locationInfo, counter){
     var infowindow = new google.maps.InfoWindow({
@@ -82,7 +88,7 @@ function markerEventListener(locationInfo, counter){
         return function() {
             infowindow.setContent(locationInfo.contentString);
             loadWikipediaArticles(locationInfo.title);
-            locationInfo.holdMarker.setAnimation(google.maps.Animation.BOUNCE);
+            animateMarker(locationInfo.holdMarker);
             infowindow.open(map,this);
             var windowWidth = $(window).width();
 
@@ -107,6 +113,7 @@ function searhNavInfo(locationInfo, counter){
         return function() {
             infowindow.setContent(locationInfo.contentString);
             loadWikipediaArticles(locationInfo.title);
+            animateMarker(locationInfo.holdMarker);
             infowindow.open(map,marker);
             map.setZoom(16);
             map.setCenter(marker.getPosition());
